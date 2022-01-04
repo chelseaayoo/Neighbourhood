@@ -10,6 +10,7 @@ from .emails import *
 Profile=()
 User=()
 ProfileForm=()
+BlogPost=()
 
 def index(request):
     try:
@@ -66,3 +67,11 @@ def update_profile(request):
         form = ProfileForm()
 
     return render(request,'profile/update_profile.html',{"form":form})
+
+@login_required(login_url='/accounts/login/')
+def blog(request):
+    current_user=request.user
+    profile=Profile.objects.get(username=current_user)
+    blogposts = BlogPost.objects.filter(neighbourhood=profile.neighbourhood)
+
+    return render(request,'blog/blogs.html',{"blogposts":blogposts})
