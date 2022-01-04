@@ -14,6 +14,7 @@ BlogPost=()
 Comment=()
 CommentForm=()
 BlogPostForm=()
+Business=()
 
 def index(request):
     try:
@@ -121,3 +122,11 @@ def new_blogpost(request):
         form = BlogPostForm()
 
     return render(request,'blog/blogpost_form.html',{"form":form})
+
+@login_required(login_url='/accounts/login/')
+def businesses(request):
+    current_user=request.user
+    profile=Profile.objects.get(username=current_user)
+    businesses = Business.objects.filter(neighbourhood=profile.neighbourhood).all()
+
+    return render(request,'business/businesses.html',{"businesses":businesses})
