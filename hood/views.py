@@ -11,6 +11,8 @@ Profile=()
 User=()
 ProfileForm=()
 BlogPost=()
+Comment=()
+CommentForm=()
 
 def index(request):
     try:
@@ -75,3 +77,25 @@ def blog(request):
     blogposts = BlogPost.objects.filter(neighbourhood=profile.neighbourhood)
 
     return render(request,'blog/blogs.html',{"blogposts":blogposts})
+
+@login_required(login_url='/accounts/login/')
+def view_blog(request,id):
+    current_user = request.user
+
+    try:
+        comments = Comment.objects.filter(post_id=id)
+    except:
+        comments =[]
+
+    blog = BlogPost.objects.get(id=id)
+    if request.method =='POST':
+        form = CommentForm(request.POST,request.FILES)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.username = current_user
+            comment.post = blog
+            comment.save()
+    else:
+        form = CommentForm()
+
+    return render(request,'blog/view_blog.html',{"blog":blog,"form":form,"comments":comments})
