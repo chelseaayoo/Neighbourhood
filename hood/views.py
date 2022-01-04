@@ -7,9 +7,9 @@ from PIL import Image
 from .forms import *
 from .emails import *
 # Create your views here.
+Profile=()
 
 def index(request):
-    Profile=()
     try:
         if not request.user.is_authenticated:
             return redirect('/accounts/login/')
@@ -18,3 +18,9 @@ def index(request):
     except ObjectDoesNotExist:
         return redirect('create-profile')
     return render(request,'index.html')
+
+@login_required(login_url='/accounts/login/')
+def my_profile(request):
+    current_user=request.user
+    profile =Profile.objects.get(username=current_user)
+    return render(request,'profile/user_profile.html',{"profile":profile})
