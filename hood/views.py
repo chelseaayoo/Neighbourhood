@@ -16,6 +16,7 @@ CommentForm=()
 BlogPostForm=()
 Business=()
 BusinessForm=()
+Health=()
 
 def index(request):
     try:
@@ -151,3 +152,11 @@ def new_business(request):
         form = BusinessForm()
 
     return render(request,'business/business_form.html',{"form":form})
+
+@login_required(login_url='/accounts/login/')
+def health_service(request):
+    current_user=request.user
+    profile=Profile.objects.get(username=current_user)
+    healthservices = Health.objects.filter(neighbourhood=profile.neighbourhood).all()
+
+    return render(request,'registration/health.html',{"healthservices":healthservices})
