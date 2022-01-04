@@ -17,6 +17,8 @@ BlogPostForm=()
 Business=()
 BusinessForm=()
 Health=()
+HealthForm=()
+healthservices=()
 
 def index(request):
     try:
@@ -160,3 +162,26 @@ def health_service(request):
     healthservices = Health.objects.filter(neighbourhood=profile.neighbourhood).all()
 
     return render(request,'registration/health.html',{"healthservices":healthservices})
+
+@login_required(login_url='/accounts/login/')
+def health(request):
+    current_user=request.user
+    profile=Profile.objects.get(username=current_user)
+    # healthservices = Health.objects.filter(neighbourhood=profile.neighbourhood)
+
+    
+    if request.method=="POST":
+        form =HealthForm(request.POST,request.FILES)
+        if form.is_valid():
+            health = form.save(commit = False)
+            # health.owner = current_user
+            health.neighbourhood = profile.neighbourhood
+            health.save()
+
+        return HttpResponseRedirect('/health',{"healthservices": healthservices})
+
+    else:
+        form = HealthForm()
+
+   
+    return render(request,'registration/health_form.html',{"form":form})
