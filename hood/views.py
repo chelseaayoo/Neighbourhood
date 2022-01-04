@@ -19,6 +19,7 @@ BusinessForm=()
 Health=()
 HealthForm=()
 healthservices=()
+notifications=()
 
 def index(request):
     try:
@@ -185,3 +186,11 @@ def health(request):
 
    
     return render(request,'registration/health_form.html',{"form":form})
+
+@login_required(login_url='/accounts/login/')
+def notification(request):
+    current_user=request.user
+    profile=Profile.objects.get(username=current_user)
+    all_notifications = notifications.objects.filter(neighbourhood=profile.neighbourhood)
+
+    return render(request,'notifications/notifications.html',{"notifications":all_notifications})
