@@ -83,4 +83,16 @@ class healthservices(models.Model):
     @classmethod
     def delete_healthservices(cls,healthservices):
         cls.objects.filter(healthservices=healthservices).delete()
+
+class Health(models.Model):
+    logo = CloudinaryField('image')
+    neighbourhood = models.ForeignKey(neighbourhood,on_delete=models.CASCADE)
+    name =models.CharField(max_length=100)
+    email = models.EmailField()
+    contact = models.IntegerField()
+    address =models.CharField(max_length=100)
+    healthservices = models.ManyToManyField(healthservices)
+
+    def __str__(self):
+        return self.name
     
