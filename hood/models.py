@@ -70,4 +70,17 @@ class Business(models.Model):
     def search_business(cls,search_term):
         businesses = cls.objects.filter(description__icontains=search_term)
         return businesses
+
+class healthservices(models.Model):
+    healthservices = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.healthservices
+
+    def save_healthservices(self):
+        self.save()
+
+    @classmethod
+    def delete_healthservices(cls,healthservices):
+        cls.objects.filter(healthservices=healthservices).delete()
     
