@@ -10,3 +10,8 @@ class BlogPostForm(forms.ModelForm):
     class Meta:
         model=BlogPost
         exclude=['username','neighbourhood','profpic']
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model=Comment
+        exclude=['username','post']
