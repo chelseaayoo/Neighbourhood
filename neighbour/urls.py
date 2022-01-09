@@ -20,7 +20,7 @@ from django.contrib.auth import views
 
 urlpatterns = [
     url('admin/', admin.site.urls),
-    url(r'',include('neighbourhood.urls')),
+    url(r'',include('hood.urls')),
     url(r'^accounts/', include('registration.backends.simple.urls')),
     # url(r'^logout/$', views.LogoutView.as_view(), {"next_page": '/'})
     path(r'logout/', views.logout_then_login),
