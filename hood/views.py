@@ -197,10 +197,9 @@ def new_notification(request):
             notification.save()
 
             if notification.priority == 'High Priority':
-                # send_email(profile.name,profile.email,notification.title,notification.notification,notification.author,notification.neighbourhood)
-                send_email(notification.title,notification.notification)
+                
 
-        return HttpResponseRedirect('/notifications')
+             return HttpResponseRedirect('/notifications')
 
 
     else:
