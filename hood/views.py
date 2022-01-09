@@ -6,22 +6,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from PIL import Image
 from .forms import *
 from .emails import *
+
 # Create your views here.
-Profile=()
-User=()
-ProfileForm=()
-BlogPost=()
-Comment=()
-CommentForm=()
-BlogPostForm=()
-Business=()
-BusinessForm=()
-Health=()
-HealthForm=()
-healthservices=()
-notifications=()
-notificationsForm=()
-send_email=()
 
 def index(request):
     try:
@@ -85,7 +71,7 @@ def blog(request):
     profile=Profile.objects.get(username=current_user)
     blogposts = BlogPost.objects.filter(neighbourhood=profile.neighbourhood)
 
-    return render(request,'blog/blogs.html',{"blogposts":blogposts})
+    return render(request,'blog/blog.html',{"blogposts":blogposts})
 
 @login_required(login_url='/accounts/login/')
 def view_blog(request,id):
@@ -107,7 +93,7 @@ def view_blog(request,id):
     else:
         form = CommentForm()
 
-    return render(request,'blog/view_blog.html',{"blog":blog,"form":form,"comments":comments})
+    return render(request,'blog/blog_view.html',{"blog":blog,"form":form,"comments":comments})
 
 @login_required(login_url='/accounts/login/')
 def new_blogpost(request):
@@ -128,7 +114,7 @@ def new_blogpost(request):
     else:
         form = BlogPostForm()
 
-    return render(request,'blog/blogpost_form.html',{"form":form})
+    return render(request,'blog/blog_form.html',{"form":form})
 
 @login_required(login_url='/accounts/login/')
 def businesses(request):
@@ -136,7 +122,7 @@ def businesses(request):
     profile=Profile.objects.get(username=current_user)
     businesses = Business.objects.filter(neighbourhood=profile.neighbourhood).all()
 
-    return render(request,'business/businesses.html',{"businesses":businesses})
+    return render(request,'business/business.html',{"businesses":businesses})
 
 @login_required(login_url='/accounts/login/')
 def new_business(request):
@@ -151,7 +137,7 @@ def new_business(request):
             business.neighbourhood = profile.neighbourhood
             business.save()
 
-        return HttpResponseRedirect('/businesses')
+        return HttpResponseRedirect('/business')
 
     else:
         form = BusinessForm()
